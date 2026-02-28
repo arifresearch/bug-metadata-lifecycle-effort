@@ -4,6 +4,11 @@ from scripts.descriptive import run_descriptive
 from scripts.correlation import run_correlation
 from scripts.group_tests import run_group_tests
 from scripts.regression import run_regression
+from scripts.visualization import (
+    plot_distribution,
+    plot_time_components,
+    plot_regression_coefficients
+)
 
 def main():
     base_dir = Path(__file__).parent
@@ -19,6 +24,15 @@ def main():
     run_regression(df, output_dir)
 
     print("Replication complete. All outputs saved in results/tables/")
+    figure_dir = base_dir / "results/figures"
+figure_dir.mkdir(parents=True, exist_ok=True)
+
+plot_distribution(df, figure_dir)
+plot_time_components(df, figure_dir)
+
+model = run_regression(df, output_dir)
+plot_regression_coefficients(model, figure_dir)
 
 if __name__ == "__main__":
+
     main()
